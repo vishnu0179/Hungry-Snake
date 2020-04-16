@@ -1,10 +1,11 @@
 
+
 function init()
 {
     cell_size = 32
 
-    dead = new Audio();
     eat = new Audio();
+    dead = new Audio();
 
     dead.src = "audio/dead.mp3";
     eat.src = "audio/eat.mp3";
@@ -18,6 +19,7 @@ function init()
         cells:[],
         direction: "right",
         velocity:20,
+        score: 0,
 
         createSnake : function() {
             for(var i= this.init_len;i>=0;i--)
@@ -42,6 +44,8 @@ function init()
             {
                 eat.play();
                 food = randomFood();
+                snake.score = snake.score + 1;
+                
             }
             else {
                 this.cells.pop();
@@ -131,6 +135,10 @@ function draw()
 
     pen.fillStyle = food.color;
     pen.drawImage(foodImg,food.x * cell_size, food.y * cell_size, cell_size, cell_size)
+
+    pen.fillStyle = "white";
+    pen.font = "45px Changa one";
+    pen.fillText(snake.score,2*cell_size,1.6*cell_size);
 }
 
 function update() {
@@ -141,8 +149,8 @@ function update() {
 
 function randomFood() {
 
-    var foodX = Math.round((Math.random() *(W -cell_size)+1)/cell_size)
-    var foodY = Math.round((Math.random()*(H-cell_size)+3)/cell_size)
+    var foodX = Math.round((Math.random() *(W -cell_size*4))/cell_size+2)
+    var foodY = Math.round((Math.random()*(H-cell_size*5))/cell_size+3)
 
     var food = {
         x: foodX,
@@ -167,4 +175,4 @@ function gameloop() {
 }
 
 init()
-f = setInterval(gameloop, 200)
+f = setInterval(gameloop, 120)
